@@ -1,4 +1,4 @@
-# D-Map
+# D'Map
 D'Map adalah sebuah aplikasi android untuk melakukan pencarian tempat menggunakan GPS.
 
 # Mockup
