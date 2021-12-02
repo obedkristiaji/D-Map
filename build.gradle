@@ -15,10 +15,3 @@ buildscript {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-allprojects {
-    repositories {
-        // mq maven repo
-        // maven { url 'https://artifactory.cloud.mapquest.com/artifactory/et-android-binaries' }
-    }
-}

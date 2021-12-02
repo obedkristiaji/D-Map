@@ -14,7 +14,8 @@ import com.mapquest.mapping.MapQuest;
 import com.mapquest.mapping.maps.MapView;
 
 public class MainActivity extends Activity {
-    private final LatLng MAPQUEST_HEADQUARTERS_LOCATION = new LatLng(-6.8749534061560915, 107.60492399711352);
+    private final LatLng MAPQUEST_HEADQUARTERS_LOCATION = new LatLng(
+            -6.8749534061560915, 107.60492399711352);
     //latitude dan longitude diatur mengikuti lokasi UNPAR.
     private MapView mMapView;
     private MapboxMap mMapboxMap;
@@ -48,8 +49,8 @@ public class MainActivity extends Activity {
     private void addMarker(MapboxMap mapboxMap) {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(MAPQUEST_HEADQUARTERS_LOCATION);
-        markerOptions.title("MapQuest");
-        markerOptions.snippet("Welcome to Denver!");
+        markerOptions.title("Lokasi Terkini");
+        markerOptions.snippet("Ini lokasi anda saat ini.");
         mapboxMap.addMarker(markerOptions);
     }
 
