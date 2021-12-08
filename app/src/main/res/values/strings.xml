@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">D-Map</string>
+    <string name="DMaps">D-Map</string>
+
+    <string-array name="locations_array">
+        <item>UNPAR</item>
+        <item>UNIKOM</item>
+        <item>UNPAS</item>
+    </string-array>
+
 </resources>
