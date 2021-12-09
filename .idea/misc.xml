@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Windows 10/AndroidStudioProjects/D-Map/app/src/main/res/drawable-anydpi/ic_search.xml" value="0.23177083333333334" />
+        <entry key="..\:/Users/Windows 10/AndroidStudioProjects/D-Map/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23177083333333334" />
+        <entry key="..\:/Users/Windows 10/AndroidStudioProjects/D-Map/app/src/main/res/drawable/ic_launcher_background.xml" value="0.23177083333333334" />
         <entry key="..\:/Users/Windows 10/AndroidStudioProjects/D-Map/app/src/main/res/drawable/white_border.xml" value="0.2037037037037037" />
         <entry key="..\:/Users/Windows 10/AndroidStudioProjects/D-Map/app/src/main/res/layout/activity_main.xml" value="0.21302083333333333" />
         <entry key="..\:/Users/pedro/Desktop/Programming/Android/D-Map/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
