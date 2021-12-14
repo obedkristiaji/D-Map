@@ -1,6 +1,7 @@
 package com.example.d_map;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -14,8 +15,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
-import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -30,12 +33,11 @@ import java.util.List;
 
 public class MainActivity extends Activity {
     private static final String TAG = "";
-    private final LatLng MAPQUEST_HEADQUARTERS_LOCATION = new LatLng(
-            -6.8749534061560915, 107.60492399711352);
-    //latitude dan longitude diatur mengikuti lokasi UNPAR.
+    private LatLng MAPQUEST_HEADQUARTERS_LOCATION;
     private MapView mMapView;
     private MapboxMap mMapboxMap;
     private EditText et_search;
+    private GpsTracker gpsTracker;
 
 
     @Override
@@ -70,6 +72,13 @@ public class MainActivity extends Activity {
             }
         });
 
+        gpsTracker = new GpsTracker(MainActivity.this);
+        if (gpsTracker.canGetLocation()) {
+            double latitude = gpsTracker.getLatitude();
+            double longitude = gpsTracker.getLongitude();
+            MAPQUEST_HEADQUARTERS_LOCATION = new LatLng(latitude, longitude);
+        }
+
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -82,6 +91,15 @@ public class MainActivity extends Activity {
                 init();
             }
         });
+
+        try {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void init() {
@@ -122,12 +140,6 @@ public class MainActivity extends Activity {
             Log.d(TAG, "found location : " + address.toString());
         }
     }
-
-    CameraPosition position = new CameraPosition.Builder()
-        .target(MAPQUEST_HEADQUARTERS_LOCATION) // Sets the new camera position
-        .zoom(10) // Sets the zoom to level 10
-        .tilt(20) // Set the camera tilt to 20 degrees
-        .build(); // Builds the CameraPosition object from the builder
 
     private void addMarker(MapboxMap mapboxMap) {
         MarkerOptions markerOptions = new MarkerOptions();
