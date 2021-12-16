@@ -1,5 +1,8 @@
 package com.example.d_map;
-
+/* Kode di bawah dibuat dengan menggunakan sumber referensi sebagai berikut.
+ * Judul Artikel    : How to get current latitude and longitude in android example
+ * URL              : https://howtodoandroid.com/get-current-location-android/
+ */
 import android.Manifest;
 import android.app.Activity;
 import android.app.Service;
