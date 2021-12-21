@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -33,12 +34,11 @@ import java.util.List;
 
 public class MainActivity extends Activity {
     private static final String TAG = "";
-    private LatLng MAPQUEST_HEADQUARTERS_LOCATION;
+    private LatLng USER_LOCATION;
     private MapView mMapView;
     private MapboxMap mMapboxMap;
     private EditText et_search;
     private GpsTracker gpsTracker;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +72,12 @@ public class MainActivity extends Activity {
             }
         });
 
+        // Mendapatkan lokasi inisial
         gpsTracker = new GpsTracker(MainActivity.this);
         if (gpsTracker.canGetLocation()) {
-            double latitude = gpsTracker.getLatitude();
-            double longitude = gpsTracker.getLongitude();
-            MAPQUEST_HEADQUARTERS_LOCATION = new LatLng(latitude, longitude);
+            double latitude = -6.875321;
+            double longitude = 107.604554;
+            USER_LOCATION = new LatLng(latitude, longitude); // Lokasi peta di UNPAR hanya sebagai percobaan
         }
 
         mMapView.onCreate(savedInstanceState);
@@ -85,8 +86,17 @@ public class MainActivity extends Activity {
             public void onMapReady(MapboxMap mapboxMap) {
                 mMapboxMap = mapboxMap;
                 mMapView.setStreetMode();
-                mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MAPQUEST_HEADQUARTERS_LOCATION, 11));
+                mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(USER_LOCATION, 15));
                 addMarker(mapboxMap);
+                mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        LatLng LATEST_LOCATION = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                        marker.setPosition(LATEST_LOCATION);
+                        mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LATEST_LOCATION, 15));
+                        return true;
+                    }
+                });
 
                 init();
             }
@@ -143,7 +153,7 @@ public class MainActivity extends Activity {
 
     private void addMarker(MapboxMap mapboxMap) {
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(MAPQUEST_HEADQUARTERS_LOCATION);
+        markerOptions.position(USER_LOCATION);
         markerOptions.title("Lokasi Terkini");
         markerOptions.snippet("Ini lokasi anda saat ini.");
         mapboxMap.addMarker(markerOptions);
