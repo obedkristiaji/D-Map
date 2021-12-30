@@ -43,7 +43,7 @@
             android:id="@+id/et_search"
             android:background="@null"
             android:layout_marginLeft="10dp"
-            android:hint="Masukan Alamat yang ingin dituju"
+            android:hint="Masukan Jenis Tempat"
             android:imeOptions="actionSearch"
             />
 

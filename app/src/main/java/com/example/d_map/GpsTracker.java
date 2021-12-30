@@ -18,11 +18,19 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
+import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+
+import java.util.List;
+
 public class GpsTracker extends Service implements LocationListener {
     private final Context mContext;
     boolean isGPSEnabled = false;
     boolean isNetworkEnabled = false;
     boolean canGetLocation = false;
+    private SearchTask task;
+    private final MainActivity activity;
 
     Location location;
     double latitude;
@@ -31,8 +39,10 @@ public class GpsTracker extends Service implements LocationListener {
     private static final long MIN_TIME_BW_UPDATES = 1000 * 5; // 5 detik
     protected LocationManager locationManager;
 
-    public GpsTracker(Context context) {
+    public GpsTracker(Context context, MainActivity main, SearchTask task) {
         this.mContext = context;
+        this.activity = main;
+        this.task = task;
         getLocation();
     }
 
@@ -126,6 +136,14 @@ public class GpsTracker extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         Log.d("NewLoc", "Latitude = "+getLatitude()+"; Longitude = "+getLongitude());
+        LatLng LATEST_LOCATION = new LatLng(getLatitude(), getLongitude());
+        List<Marker> markers = activity.getMapboxMap().getMarkers();
+        for(Marker marker : markers) {
+            activity.getMapboxMap().removeMarker(marker);
+        }
+        activity.addMarker(activity.getMapboxMap(), LATEST_LOCATION);
+
+        task.execute(LATEST_LOCATION, "");
     }
 
     @Override

@@ -2,8 +2,11 @@ package com.example.d_map;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,6 +21,8 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -39,6 +44,7 @@ public class MainActivity extends Activity {
     private MapboxMap mMapboxMap;
     private EditText et_search;
     private GpsTracker gpsTracker;
+    private SearchTask task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +78,10 @@ public class MainActivity extends Activity {
             }
         });
 
+        task = new SearchTask(MainActivity.this, this);
+
         // Mendapatkan lokasi inisial
-        gpsTracker = new GpsTracker(MainActivity.this);
+        gpsTracker = new GpsTracker(MainActivity.this, this, task);
         if (gpsTracker.canGetLocation()) {
             double latitude = -6.875321;
             double longitude = 107.604554;
@@ -86,17 +94,16 @@ public class MainActivity extends Activity {
             public void onMapReady(MapboxMap mapboxMap) {
                 mMapboxMap = mapboxMap;
                 mMapView.setStreetMode();
-                mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(USER_LOCATION, 15));
-                addMarker(mapboxMap);
-                mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(Marker marker) {
-                        LatLng LATEST_LOCATION = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                        marker.setPosition(LATEST_LOCATION);
-                        mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LATEST_LOCATION, 15));
-                        return true;
-                    }
-                });
+                addMarker(mapboxMap, USER_LOCATION);
+//                mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
+//                    @Override
+//                    public boolean onMarkerClick(Marker marker) {
+//                        LatLng LATEST_LOCATION = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+//                        marker.setPosition(LATEST_LOCATION);
+//                        mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LATEST_LOCATION, 15));
+//                        return true;
+//                    }
+//                });
 
                 init();
             }
@@ -151,12 +158,29 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void addMarker(MapboxMap mapboxMap) {
+    public void addMarker(MapboxMap mapboxMap, LatLng location) {
+        mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(USER_LOCATION);
+        markerOptions.position(location);
         markerOptions.title("Lokasi Terkini");
         markerOptions.snippet("Ini lokasi anda saat ini.");
         mapboxMap.addMarker(markerOptions);
+    }
+
+    public void addOtherMarker(MapboxMap mapboxMap, LatLng location, String title, String snippet) {
+//        IconFactory iconFactory = IconFactory.getInstance(MainActivity.this);
+//        Icon icon = iconFactory.fromResource(R.drawable.ic_location_cyan);
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(location);
+        markerOptions.title(title);
+        markerOptions.snippet(snippet);
+//        markerOptions.icon(icon);
+        mapboxMap.addMarker(markerOptions);
+    }
+
+    public MapboxMap getMapboxMap(){
+        return this.mMapboxMap;
     }
 
     @Override
