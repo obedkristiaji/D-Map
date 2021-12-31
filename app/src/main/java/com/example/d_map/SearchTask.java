@@ -27,16 +27,29 @@ public class SearchTask {
         this.activity = main;
     }
 
-    public void execute(LatLng location, String query) {
+    public void execute(LatLng location, String category) {
         JSONObject jsonInput = new JSONObject();
-        this.callVolley(jsonInput, query, location);
+        this.callVolley(jsonInput, category, location);
+        Log.d("placeListExecute", this.activity.getList().toString());
     }
 
-    private void callVolley(JSONObject json, String query, LatLng location) {
+    private void callVolley(JSONObject json, String category, LatLng location) {
+        String code = "";
+        if(category.equals("SPBU")){
+            code = "554101";
+        } else if(category.equals("Rumah Sakit")){
+            code = "806202";
+        } else if(category.equals("Mall")){
+            code = "651201";
+        } else if(category.equals("Restoran")){
+            code = "581208";
+        } else if(category.equals("Masjid")){
+            code = "866114";
+        }
         RequestQueue queue = Volley.newRequestQueue(this.context);
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
-                this.baseUrl + location.getLatitude() + "," + location.getLongitude() + "&outFormat=json&hostedData=mqap.internationalpois%7Cnavsics%20=%20?%7C554101%7Cname,address,lat,lng",
+                this.baseUrl + location.getLatitude() + "," + location.getLongitude() + "&outFormat=json&hostedData=mqap.internationalpois%7Cnavsics%20=%20?%7C" + code + "%7Cname,address,lat,lng",
                 json,
                 new ResponseListener(),
                 new ErrorListener()
@@ -46,12 +59,15 @@ public class SearchTask {
     }
 
     private void processResult(JSONArray json) throws JSONException {
+        this.activity.resetList();
         for(int i = 0; i <= json.length(); i++) {
             JSONObject fields = (JSONObject) json.getJSONObject(i).get("fields");
             String name = fields.get("name").toString();
             String address = fields.get("address").toString();
             LatLng location = new LatLng((double) fields.get("lat"), (double) fields.get("lng"));
             this.activity.addOtherMarker(this.activity.getMapboxMap(), location, name, address);
+            Log.d("placeListTask", this.activity.getList().toString());
+            this.activity.initializeAdapter();
         }
     }
 

@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">D\'Map</string>
 
-    <string-array name="locations_array">
-        <item>UNPAR</item>
-        <item>UNIKOM</item>
-        <item>UNPAS</item>
+    <string-array name="category">
+        <item>SPBU</item>
+        <item>Rumah Sakit</item>
+        <item>Mall</item>
+        <item>Restoran</item>
+        <item>Masjid</item>
     </string-array>
+
 
 </resources>

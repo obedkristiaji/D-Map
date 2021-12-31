@@ -21,38 +21,50 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:elevation="10dp"
+        android:layout_alignParentTop="true"
         android:background="@drawable/white_border"
         android:id="@+id/relativeLayout1">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:id="@+id/ic_search"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_search"
-            />
 
-        <EditText
+<!--        <EditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_toRightOf="@+id/ic_search"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textColor="#000"-->
+<!--            android:id="@+id/et_search"-->
+<!--            android:background="@null"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:hint="Masukan Jenis Tempat"-->
+<!--            android:imeOptions="actionSearch"-->
+<!--            />-->
+
+        <Spinner
+            android:id="@+id/spinner_category"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/ic_search"
-            android:layout_centerVertical="true"
-            android:textSize="20sp"
-            android:textColor="#000"
-            android:id="@+id/et_search"
-            android:background="@null"
-            android:layout_marginLeft="10dp"
-            android:hint="Masukan Jenis Tempat"
-            android:imeOptions="actionSearch"
+            android:layout_height="50dp"
+            android:entries="@array/category"
             />
+    </RelativeLayout>
 
-        <AutoCompleteTextView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:elevation="10dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/white_border"
+        android:id="@+id/relativeLayout2">
+
+        <ListView
+            android:id="@+id/lst_search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:id="@+id/autocomplete_search"/>
-
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            />
     </RelativeLayout>
 
 </RelativeLayout>

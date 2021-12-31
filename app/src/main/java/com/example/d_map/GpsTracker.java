@@ -31,6 +31,7 @@ public class GpsTracker extends Service implements LocationListener {
     boolean canGetLocation = false;
     private SearchTask task;
     private final MainActivity activity;
+    private String category = "SPBU";
 
     Location location;
     double latitude;
@@ -133,17 +134,22 @@ public class GpsTracker extends Service implements LocationListener {
         return this.canGetLocation;
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.d("NewLoc", "Latitude = "+getLatitude()+"; Longitude = "+getLongitude());
+    public void changeLocation(String category) {
+        this.category = category;
         LatLng LATEST_LOCATION = new LatLng(getLatitude(), getLongitude());
         List<Marker> markers = activity.getMapboxMap().getMarkers();
         for(Marker marker : markers) {
             activity.getMapboxMap().removeMarker(marker);
         }
         activity.addMarker(activity.getMapboxMap(), LATEST_LOCATION);
+        task.execute(LATEST_LOCATION, category);
+        Log.d("placeListTracker", this.activity.getList().toString());
+    }
 
-        task.execute(LATEST_LOCATION, "");
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.d("NewLoc", "Latitude = "+getLatitude()+"; Longitude = "+getLongitude());
+        this.changeLocation(this.category);
     }
 
     @Override
