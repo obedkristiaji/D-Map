@@ -49,6 +49,7 @@ public class GpsTracker extends Service implements LocationListener {
     }
 
     public Location getLocation() {
+        Log.d("YO","YES");
         try {
             locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -137,7 +138,8 @@ public class GpsTracker extends Service implements LocationListener {
 
     public void changeLocation(String category) {
         this.category = category;
-        LatLng LATEST_LOCATION = new LatLng(getLatitude(), getLongitude());
+
+        LatLng LATEST_LOCATION = new LatLng(getLatitude(),getLongitude());
         List<Marker> markers = activity.getMapboxMap().getMarkers();
         for(Marker marker : markers) {
             activity.getMapboxMap().removeMarker(marker);
@@ -149,10 +151,15 @@ public class GpsTracker extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+//        getLocation();
+//        activity.test();
+        this.location = location;
+//        LatLng latlng = new LatLng(location.getLatitude(),location.getLongitude());
         Log.d("NewLoc", "Latitude = "+getLatitude()+"; Longitude = "+getLongitude());
         if(activity.getInit()) {
             this.changeLocation(this.category);
         }
+
     }
 
     @Override

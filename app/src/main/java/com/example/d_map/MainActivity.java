@@ -44,7 +44,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnMapReadyCallback {
     private static final String TAG = "";
     private LatLng USER_LOCATION;
     private MapView mMapView;
@@ -65,7 +65,6 @@ public class MainActivity extends Activity {
         setContentView(this.binding.getRoot());
 //        et_search = (EditText) findViewById(R.id.et_search);
         mMapView = (MapView) findViewById(R.id.mapquestMapView);
-
 
 //        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.autocomplete_search);
 //        String[] countries = getResources().getStringArray(R.array.locations_array);
@@ -102,6 +101,7 @@ public class MainActivity extends Activity {
                 mMapboxMap = mapboxMap;
                 mMapView.setStreetMode();
                 addMarker(mapboxMap, USER_LOCATION);
+                init = true;
 //                mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
 //                    @Override
 //                    public boolean onMarkerClick(Marker marker) {
@@ -143,7 +143,7 @@ public class MainActivity extends Activity {
         Log.d(TAG, "init : initializing");
         USER_LOCATION = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         task.execute(USER_LOCATION, "SPBU");
-        this.init = true;
+
 
 
 //        et_search.setOnEditorActionListener((new TextView.OnEditorActionListener() {
@@ -257,5 +257,16 @@ public class MainActivity extends Activity {
             //If user presses deny
             Toast.makeText(getApplicationContext(), "Permission Denied, please restart the app and allow permission", Toast.LENGTH_SHORT).show();
         }
+    }
+
+//    public void test() {
+//        Intent intent = getIntent();
+//        finish();
+//        startActivity(intent);
+//    }
+
+    @Override
+    public void onMapReady(MapboxMap mapboxMap) {
+
     }
 }
