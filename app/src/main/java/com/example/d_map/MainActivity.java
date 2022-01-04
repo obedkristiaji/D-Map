@@ -124,8 +124,6 @@ public class MainActivity extends Activity {
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
-
-                init();
             }
         });
 
@@ -137,6 +135,8 @@ public class MainActivity extends Activity {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+
+        init();
     }
 
     private void init() {
