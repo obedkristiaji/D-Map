@@ -150,7 +150,7 @@ public class GpsTracker extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         Log.d("NewLoc", "Latitude = "+getLatitude()+"; Longitude = "+getLongitude());
-        if(activity.getInit()) {
+        if(activity.getMarker()) {
             this.changeLocation(this.category);
         }
     }

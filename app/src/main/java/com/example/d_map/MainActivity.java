@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
     private SearchTask task;
     private ActivityMainBinding binding;
     private List<Place> placeList = new ArrayList();
-    private boolean init = false;
+    private boolean marker = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +102,7 @@ public class MainActivity extends Activity {
                 mMapboxMap = mapboxMap;
                 mMapView.setStreetMode();
                 addMarker(mapboxMap, USER_LOCATION);
+                marker = true;
 //                mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
 //                    @Override
 //                    public boolean onMarkerClick(Marker marker) {
@@ -143,7 +144,6 @@ public class MainActivity extends Activity {
         Log.d(TAG, "init : initializing");
         USER_LOCATION = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         task.execute(USER_LOCATION, "SPBU");
-        this.init = true;
 
 
 //        et_search.setOnEditorActionListener((new TextView.OnEditorActionListener() {
@@ -182,8 +182,8 @@ public class MainActivity extends Activity {
 //        }
 //    }
 
-    public boolean getInit() {
-        return this.init;
+    public boolean getMarker() {
+        return this.marker;
     }
 
     public void resetList() {
