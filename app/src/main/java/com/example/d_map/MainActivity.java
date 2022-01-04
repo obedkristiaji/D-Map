@@ -54,6 +54,7 @@ public class MainActivity extends Activity {
     private SearchTask task;
     private ActivityMainBinding binding;
     private List<Place> placeList = new ArrayList();
+    private boolean init = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +95,6 @@ public class MainActivity extends Activity {
         // Mendapatkan lokasi inisial
         gpsTracker = new GpsTracker(MainActivity.this, this, task);
 
-        init();
-
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -125,23 +124,26 @@ public class MainActivity extends Activity {
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
+
+                init();
             }
         });
 
-        try {
-            if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if (ContextCompat.checkSelfPermission(getApplicationContext(),
+//                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void init() {
         Log.d(TAG, "init : initializing");
         USER_LOCATION = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         task.execute(USER_LOCATION, "SPBU");
+        this.init = true;
 
 
 //        et_search.setOnEditorActionListener((new TextView.OnEditorActionListener() {
@@ -179,6 +181,10 @@ public class MainActivity extends Activity {
 //            Log.d(TAG, "found location : " + address.toString());
 //        }
 //    }
+
+    public boolean getInit() {
+        return this.init;
+    }
 
     public void resetList() {
         this.placeList = new ArrayList();
