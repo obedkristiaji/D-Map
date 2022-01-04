@@ -156,7 +156,7 @@ public class GpsTracker extends Service implements LocationListener {
         this.location = location;
 //        LatLng latlng = new LatLng(location.getLatitude(),location.getLongitude());
         Log.d("NewLoc", "Latitude = "+getLatitude()+"; Longitude = "+getLongitude());
-        if(activity.getInit()) {
+        if(activity.getMarker()) {
             this.changeLocation(this.category);
         }
 
