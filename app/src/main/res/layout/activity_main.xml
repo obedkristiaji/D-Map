@@ -49,22 +49,21 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:elevation="10dp"
+        android:layout_height="175dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:background="?colorOnPrimary"
-        android:id="@+id/relativeLayout2">
+        android:elevation="10dp">
 
         <ListView
             android:id="@+id/lst_search"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_alignParentBottom="true"
-            />
+            android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
 </RelativeLayout>
