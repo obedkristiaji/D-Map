@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements OnMapReadyCallback {
     private SearchTask task;
     private ActivityMainBinding binding;
     private List<Place> placeList = new ArrayList();
-    private boolean init = false;
+    private boolean marker = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class MainActivity extends Activity implements OnMapReadyCallback {
                 mMapboxMap = mapboxMap;
                 mMapView.setStreetMode();
                 addMarker(mapboxMap, USER_LOCATION);
-                init = true;
+                marker = true;
 //                mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
 //                    @Override
 //                    public boolean onMarkerClick(Marker marker) {
@@ -182,8 +182,8 @@ public class MainActivity extends Activity implements OnMapReadyCallback {
 //        }
 //    }
 
-    public boolean getInit() {
-        return this.init;
+    public boolean initMarker() {
+        return this.marker;
     }
 
     public void resetList() {
@@ -258,12 +258,6 @@ public class MainActivity extends Activity implements OnMapReadyCallback {
             Toast.makeText(getApplicationContext(), "Permission Denied, please restart the app and allow permission", Toast.LENGTH_SHORT).show();
         }
     }
-
-//    public void test() {
-//        Intent intent = getIntent();
-//        finish();
-//        startActivity(intent);
-//    }
 
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
