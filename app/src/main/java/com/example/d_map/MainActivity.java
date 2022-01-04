@@ -1,6 +1,9 @@
 package com.example.d_map;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -19,6 +22,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -53,6 +57,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         MapQuest.start(getApplicationContext());
         this.binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -233,4 +238,18 @@ public class MainActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState)
     { super.onSaveInstanceState(outState); mMapView.onSaveInstanceState(outState); }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            //If user presses allow
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+        } else {
+            //If user presses deny
+            Toast.makeText(getApplicationContext(), "Permission Denied, please restart the app and allow permission", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
