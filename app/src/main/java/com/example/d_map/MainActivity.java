@@ -200,14 +200,15 @@ public class MainActivity extends Activity implements OnMapReadyCallback {
     }
 
     public void addOtherMarker(MapboxMap mapboxMap, LatLng location, String name, String address) {
-//        IconFactory iconFactory = IconFactory.getInstance(MainActivity.this);
-//        Icon icon = iconFactory.fromResource(R.drawable.ic_location_cyan);
+        IconFactory iconFactory = IconFactory.getInstance(MainActivity.this);
+        Icon icon = iconFactory.fromResource(R.drawable.mapbox_marker_icon_blue);
+
         this.placeList.add(new Place(name, address, location));
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(location);
         markerOptions.title(name);
         markerOptions.snippet(address);
-//        markerOptions.icon(icon);
+        markerOptions.icon(icon);
         mapboxMap.addMarker(markerOptions);
         Log.d("placeListMarker", this.getList().toString());
     }
